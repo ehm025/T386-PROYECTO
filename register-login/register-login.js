@@ -4,9 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
-//COMPAÑERO SI TIENE SU BASE DE DATOS PRUEBELOS POR FAVOR, SI ME EQUIVOQUE EN ALGO DÍGAME.
-//TAMBIEN FIJESE EN LAS RUTAS YA QUE SOLO TENGO ACCESO A LA RAMA "Develop"
-
 //Registro de usuario
 router.post('/registro', async (req, res) => {
     const { nombre, email, contraseña, rol} = req.body;
