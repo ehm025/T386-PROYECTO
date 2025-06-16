@@ -4,8 +4,8 @@ class Vehicle {
   static async create(vehicle) {
     try {
       const [result] = await pool.execute(
-        'INSERT INTO vehiculo (marca, modelo, anio, precio, disponibilidad) VALUES (?, ?, ?, ?, ?)',
-        [vehicle.marca, vehicle.modelo, vehicle.anio, vehicle.precio, vehicle.disponibilidad]
+        'INSERT INTO vehiculo (marca, modelo, anio, precio, disponibilidad, imagen_url) VALUES (?, ?, ?, ?, ?, ?)',
+        [vehicle.marca, vehicle.modelo, vehicle.anio, vehicle.precio, vehicle.disponibilidad, vehicle.imagen_url || null]
       );
       return { id: result.insertId, ...vehicle };
     } catch (error) {
@@ -80,8 +80,8 @@ class Vehicle {
       }
 
       await pool.execute(
-          'UPDATE vehiculo SET marca = ?, modelo = ?, anio = ?, precio = ?, disponibilidad = ? WHERE id = ?',
-          [vehicleData.marca, vehicleData.modelo, vehicleData.anio, vehicleData.precio, vehicleData.disponibilidad, id]
+          'UPDATE vehiculo SET marca = ?, modelo = ?, anio = ?, precio = ?, disponibilidad = ?, imagen_url = ? WHERE id = ?',
+          [vehicleData.marca, vehicleData.modelo, vehicleData.anio, vehicleData.precio, vehicleData.disponibilidad, vehicleData.imagen_url || null, id]
       );
 
       return { id, ...vehicleData };
@@ -104,13 +104,15 @@ class Vehicle {
   static async initTable() {
     try {
       await pool.execute(`
-        CREATE TABLE IF NOT EXISTS vehiculo (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          marca VARCHAR(100) NOT NULL,
-          modelo VARCHAR(100) NOT NULL,
-          anio INT NOT NULL,
-          precio DECIMAL(10, 2) NOT NULL,
-          disponibilidad BOOLEAN DEFAULT TRUE
+        CREATE TABLE IF NOT EXISTS vehiculo
+        (
+          id             INT AUTO_INCREMENT PRIMARY KEY,
+          marca          VARCHAR(100)   NOT NULL,
+          modelo         VARCHAR(100)   NOT NULL,
+          anio           INT            NOT NULL,
+          precio         DECIMAL(10, 2) NOT NULL,
+          disponibilidad BOOLEAN      DEFAULT TRUE,
+          imagen_url     VARCHAR(255) DEFAULT NULL
         )
       `);
       console.log('Tabla vehiculo inicializada');
