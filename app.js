@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const Vehicle = require('./models/vehicle');
 const User = require('./models/user');
 const Client = require('./models/client');
@@ -8,12 +9,12 @@ const authRouter = require('./controllers/authController');
 const clientRouter = require('./controllers/clientController');
 const saleRouter = require('./controllers/saleController');
 const currencyRouter = require('./controllers/currencyController');
-const { authenticate } = require('./middleware/authMiddleware');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(cors())
 
 app.use('/api/auth', authRouter);
 
