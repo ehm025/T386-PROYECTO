@@ -5,7 +5,7 @@ class CurrencyService {
         this.baseUrl = 'https://api.exchangerate-api.com/v4/latest/';
     }
 
-    async fetchRates(baseCurrency = 'USD') {
+    async fetchRates(baseCurrency = 'HNL') {
         try {
             const response = await axios.get(`${this.baseUrl}${baseCurrency}`);
             return response.data.rates;
@@ -35,7 +35,7 @@ class CurrencyService {
         }
     }
 
-    async convertVehiclePrice(price, baseCurrency = 'USD', targetCurrencies = ['EUR', 'GBP', 'JPY']) {
+    async convertVehiclePrice(price, baseCurrency = 'HNL', targetCurrencies = ['EUR', 'USD']) {
         try {
             const rates = await this.fetchRates(baseCurrency);
             const conversions = {};
